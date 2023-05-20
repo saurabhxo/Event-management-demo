@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Events</h1>
+
+<div id="events">
+  <% @events.each do |event| %>
+    
+    <li><%= link_to event.name, event %></li>
+  <% end %>
+</div>
+</br>
+<%= link_to "New event", new_event_path %>     
+<% if user_signed_in? %>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+  <%= button_to "Edit Profile", edit_user_registration_path, method: :get %>
+  <%= button_to "View Profile", user_path(current_user), method: :get %>
+<% else %>
+  <%= button_to "Sign up", new_user_registration_path, method: :get %>     
+  <%= button_to "Sign in", new_user_session_path, method: :get %>
+<% end %>

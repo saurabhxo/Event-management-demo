@@ -1,0 +1,21 @@
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+<%= render @event %>
+
+<div>
+  <% if current_user  %>
+    <% unless current_user.registrations&.map(&:event_id)&.include?(@event.id) %>
+      <%= form_with(url: event_register_path(@event), method: :post) do |f| %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.hidden_field :event_id, value: @event.id %>
+      <%= f.submit 'Register for Event' %>
+      <% end %>
+    <% end  %>
+    <% if current_user.role.name == "Admin"  %>
+      <%= link_to "Edit this event", edit_event_path(@event) %>
+      <%= button_to "Delete this event", @event, :method => :delete %>
+    <% end %>
+  <% end %>
+  <br>
+  <%= link_to "Back to events", events_path %>
+</div>
